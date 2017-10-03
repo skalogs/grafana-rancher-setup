@@ -20,10 +20,11 @@ function checkGrafana {
 }
 
 function retryHttp {
-    url=$1
-    content=$2
-    curlCommand="curl ${url} --compressed -H 'Content-Type: application/json;charset=UTF-8' --write-out %{http_code} --output /dev/null -d @${content}"
-    status=$(curl ${url} --compressed -H 'Content-Type: application/json;charset=UTF-8' --write-out %{http_code} --output /dev/null -d @${content})
+    httpWord=$1
+    url=$2
+    content=$3
+    curlCommand="curl -X${httpWord} ${url} --compressed -H 'Content-Type: application/json;charset=UTF-8' --write-out %{http_code} --output /dev/null -d @${content}"
+    status=$(curlCommand)
     while  [ $status -ne 200 ] && [ $status -ne 409 ] ;
     do
         status=$(curlCommand)
@@ -49,7 +50,7 @@ then
       else
         echo Posting datasource config $name
         echo $config > /grafana/datasources/$name.json
-        retryHttp ${GRAFANA_URL}/api/datasources/ /grafana/datasources/$name.json
+        retryHttp GET ${GRAFANA_URL}/api/datasources/ /grafana/datasources/$name.json
       fi
     done
 fi
@@ -68,7 +69,7 @@ then
       else
         echo Posting dashboards config $name
         echo $config > /grafana/dashboards/$name.json
-        retryHttp ${GRAFANA_URL}/api/dashboards/db /grafana/dashboards/$name.json
+        retryHttp GET ${GRAFANA_URL}/api/dashboards/db /grafana/dashboards/$name.json
       fi
     done
 fi
@@ -87,7 +88,7 @@ then
       else
         echo Posting notifications config $name
         echo $config > /grafana/notifications/$name.json
-        retryHttp ${GRAFANA_URL}/api/alert-notifications /grafana/notifications/$name.json
+        retryHttp GET ${GRAFANA_URL}/api/alert-notifications /grafana/notifications/$name.json
       fi
     done
 fi
