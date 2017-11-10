@@ -50,7 +50,7 @@ then
       else
         echo Posting datasource config $name
         echo $config > /grafana/datasources/$name.json
-        retryHttp GET ${GRAFANA_URL}/api/datasources/ /grafana/datasources/$name.json
+        retryHttp POST ${GRAFANA_URL}/api/datasources/ /grafana/datasources/$name.json
       fi
     done
 fi
@@ -69,7 +69,7 @@ then
       else
         echo Posting dashboards config $name
         echo $config > /grafana/dashboards/$name.json
-        retryHttp GET ${GRAFANA_URL}/api/dashboards/db /grafana/dashboards/$name.json
+        retryHttp POST ${GRAFANA_URL}/api/dashboards/db /grafana/dashboards/$name.json
       fi
     done
 fi
@@ -88,7 +88,7 @@ then
       else
         echo Posting notifications config $name
         echo $config > /grafana/notifications/$name.json
-        retryHttp GET ${GRAFANA_URL}/api/alert-notifications /grafana/notifications/$name.json
+        retryHttp POST ${GRAFANA_URL}/api/alert-notifications /grafana/notifications/$name.json
       fi
     done
 fi
