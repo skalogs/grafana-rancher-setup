@@ -45,7 +45,7 @@ then
     jq -rc '.[]' /grafana/datasources.json | while IFS='' read objectConfig ; do
       name=$(echo $objectConfig | jq -r .name)
       config=$(echo $objectConfig | jq .value)
-      if [ "$name" = "null"] && [ "$config" = "null"]; then
+      if [ "$name" = "null" ] && [ "$config" = "null" ]; then
         echo "datasource name or config is null, ignoring this entry..."
       else
         echo Posting datasource config $name
@@ -64,7 +64,7 @@ then
     jq -rc '.[]' /grafana/dashboards.json | while IFS='' read objectConfig ; do
       name=$(echo $objectConfig | jq -r .name)
       config=$(echo $objectConfig | jq .value)
-      if [ "$name" = "null"] && [ "$config" = "null"]; then
+      if [ "$name" = "null" ] && [ "$config" = "null" ]; then
         echo "dashboards name or config is null, ignoring this entry..."
       else
         echo Posting dashboards config $name
@@ -83,7 +83,7 @@ then
     jq -rc '.[]' /grafana/notifications.json | while IFS='' read objectConfig ; do
       name=$(echo $objectConfig | jq -r .name)
       config=$(echo $objectConfig | jq .value)
-      if [ "$name" = "null"] && [ "$config" = "null"]; then
+      if [ "$name" = "null" ] && [ "$config" = "null" ]; then
         echo "notifications name or config is null, ignoring this entry..."
       else
         echo Posting notifications config $name
