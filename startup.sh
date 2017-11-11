@@ -42,7 +42,7 @@ if [ "$response" -eq 200 ]
 then
     curl http://${RANCHER_BASEURL}/self/service/metadata/datasources > /grafana/datasources.json
     mkdir -p /grafana/datasources
-    jq -rc '.[]' /grafana/datasources.json | while IFS='' read objectConfig ; do
+    jq -rc '.[]' /grafana/datasources.json | while IFS='' read -r objectConfig ; do
       name=$(echo $objectConfig | jq -r .name)
       config=$(echo $objectConfig | jq .value)
       if [ "$name" = "null" ] && [ "$config" = "null" ]; then
@@ -61,7 +61,7 @@ if [ "$response" -eq 200 ]
 then
     curl http://${RANCHER_BASEURL}/self/service/metadata/dashboards > /grafana/dashboards.json
     mkdir -p /grafana/dashboards
-    jq -rc '.[]' /grafana/dashboards.json | while IFS='' read objectConfig ; do
+    jq -rc '.[]' /grafana/dashboards.json | while IFS='' read -r objectConfig ; do
       name=$(echo $objectConfig | jq -r .name)
       config=$(echo $objectConfig | jq .value)
       if [ "$name" = "null" ] && [ "$config" = "null" ]; then
@@ -80,7 +80,7 @@ if [ "$response" -eq 200 ]
 then
     curl http://${RANCHER_BASEURL}/self/service/metadata/notifications > /grafana/notifications.json
     mkdir -p /grafana/notifications
-    jq -rc '.[]' /grafana/notifications.json | while IFS='' read objectConfig ; do
+    jq -rc '.[]' /grafana/notifications.json | while IFS='' read -r objectConfig ; do
       name=$(echo $objectConfig | jq -r .name)
       config=$(echo $objectConfig | jq .value)
       if [ "$name" = "null" ] && [ "$config" = "null" ]; then
