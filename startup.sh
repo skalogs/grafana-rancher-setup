@@ -23,7 +23,7 @@ function retryHttp {
     httpWord=$1
     url=$2
     content=$3
-    curlCommand="curl -X${httpWord} ${url} --compressed -H 'Content-Type: application/json;charset=UTF-8' --write-out %{http_code} --output /dev/null -d @${content}"
+    curlCommand="curl -s -S -X${httpWord} ${url} --compressed -H 'Content-Type: application/json;charset=UTF-8' --write-out %{http_code} --output /dev/null -d @${content}"
     status=$(eval $curlCommand)
     while  [ $status -ne 200 ] && [ $status -ne 409 ] ;
     do
