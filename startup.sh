@@ -43,13 +43,13 @@ then
     curl http://${RANCHER_BASEURL}/self/service/metadata/datasources > /grafana/datasources.json
     mkdir -p /grafana/datasources
     jq -rc '.[]' /grafana/datasources.json | while IFS='' read -r objectConfig ; do
-      name=$(echo $objectConfig | jq -r .name)
-      config=$(echo $objectConfig | jq .value)
+      name=$(echo "$objectConfig" | jq -r .name)
+      config=$(echo "$objectConfig" | jq -r .value)
       if [ "$name" = "null" ] && [ "$config" = "null" ]; then
         echo "datasource name or config is null, ignoring this entry..."
       else
         echo Posting datasource config $name
-        echo $config > /grafana/datasources/$name.json
+        echo "$config" > /grafana/datasources/$name.json
         retryHttp POST ${GRAFANA_URL}/api/datasources/ /grafana/datasources/$name.json
       fi
     done
@@ -62,13 +62,13 @@ then
     curl http://${RANCHER_BASEURL}/self/service/metadata/dashboards > /grafana/dashboards.json
     mkdir -p /grafana/dashboards
     jq -rc '.[]' /grafana/dashboards.json | while IFS='' read -r objectConfig ; do
-      name=$(echo $objectConfig | jq -r .name)
-      config=$(echo $objectConfig | jq .value)
+      name=$(echo "$objectConfig" | jq -r .name)
+      config=$(echo "$objectConfig" | jq -r .value)
       if [ "$name" = "null" ] && [ "$config" = "null" ]; then
         echo "dashboards name or config is null, ignoring this entry..."
       else
         echo Posting dashboards config $name
-        echo $config > /grafana/dashboards/$name.json
+        echo "$config" > /grafana/dashboards/$name.json
         retryHttp POST ${GRAFANA_URL}/api/dashboards/db /grafana/dashboards/$name.json
       fi
     done
@@ -81,13 +81,13 @@ then
     curl http://${RANCHER_BASEURL}/self/service/metadata/notifications > /grafana/notifications.json
     mkdir -p /grafana/notifications
     jq -rc '.[]' /grafana/notifications.json | while IFS='' read -r objectConfig ; do
-      name=$(echo $objectConfig | jq -r .name)
-      config=$(echo $objectConfig | jq .value)
+      name=$(echo "$objectConfig" | jq -r .name)
+      config=$(echo "$objectConfig" | jq -r .value)
       if [ "$name" = "null" ] && [ "$config" = "null" ]; then
         echo "notifications name or config is null, ignoring this entry..."
       else
         echo Posting notifications config $name
-        echo $config > /grafana/notifications/$name.json
+        echo "$config" > /grafana/notifications/$name.json
         retryHttp POST ${GRAFANA_URL}/api/alert-notifications /grafana/notifications/$name.json
       fi
     done
