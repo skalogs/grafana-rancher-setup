@@ -23,11 +23,16 @@ function retryHttp {
     httpWord=$1
     url=$2
     content=$3
-    curlCommand="curl -s -S -X${httpWord} ${url} --compressed -H 'Content-Type: application/json;charset=UTF-8' --write-out %{http_code} --output /dev/null -d @${content}"
-    status=$(eval $curlCommand)
-    while  [ $status -ne 200 ] && [ $status -ne 409 ] ;
+    curlCommand="curl -s -S -X${httpWord} ${url} --compressed -H 'Content-Type: application/json;charset=UTF-8' --write-out %{http_code} --output ${content}.output -d @${content}"
+    status=0
+    while  [ $status -ne 200 ] && [ $status -ne 409 ] && [ $status -ne 500 ];
     do
         status=$(eval $curlCommand)
+        if [ $status -eq 500 ]
+        then 
+          echo "Grafana sent a 500 HTTP Code"
+          cat ${content}.output 
+        fi
         sleep 1
     done
 }
